@@ -31,16 +31,7 @@ def get_color():
     payload = response.json()
     red, green, blue = payload["attributes"]["rgb_color"]
 
-    return (
-        "#"
-        + bytes(
-            [
-                int(red * 255),
-                int(green * 255),
-                int(blue * 255),
-            ]
-        ).hex()
-    )
+    return "#" + bytes([red, green, blue]).hex()
 
 
 @app.route("/set", methods=["POST"])
