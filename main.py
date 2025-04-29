@@ -23,6 +23,7 @@ def get_color():
             "Authorization": "Bearer " + TOKEN,
             "Content-Type": "application/json",
         },
+        timeout=3,
     )
 
     if not response.ok:
@@ -36,6 +37,23 @@ def get_color():
 
 @app.route("/set", methods=["POST"])
 def set_color():
+    # check if the light is off first
+    response = requests.get(
+        "https://homeassistant.home.breq.dev/api/states/light.orb",
+        headers={
+            "Authorization": "Bearer " + TOKEN,
+            "Content-Type": "application/json",
+        },
+        timeout=3,
+    )
+
+    if not response.ok:
+        return "", response.status_code
+
+    payload = response.json()
+    if payload["state"] != "on":
+        return "", 204
+
     hex_color = request.args["color"]
     red, green, blue = bytes.fromhex(hex_color.removeprefix("#"))
 
@@ -49,6 +67,11 @@ def set_color():
             "entity_id": "light.orb",
             "rgb_color": [red, green, blue],
         },
+        timeout=3,
     )
 
     return "", resp.status_code
+
+
+if __name__ == "__main__":
+    app.run()
