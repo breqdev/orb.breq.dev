@@ -36,6 +36,17 @@ svg {
   align-self: center;
 }
 
+#path6 {
+  transition-property: fill;
+  transition-duration: 500ms;
+}
+
+#stop7,
+#stop8 {
+  transition-property: stop-color;
+  transition-duration: 500ms;
+}
+
 .sliders {
   align-self: stretch;
   display: flex;
