@@ -35,9 +35,9 @@ def get_color():
         "#"
         + bytes(
             [
-                int(round(red * 255)),
-                int(round(green * 255)),
-                int(round(blue * 255)),
+                int(red * 255),
+                int(green * 255),
+                int(blue * 255),
             ]
         ).hex()
     )
