@@ -1,5 +1,11 @@
 from flask import Flask, send_file, request
 import requests
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
+TOKEN = os.environ["HOMEASSISTANT_TOKEN"]
 
 app = Flask(__name__)
 
@@ -14,7 +20,7 @@ def get_color():
     response = requests.get(
         "https://homeassistant.home.breq.dev/api/states/light.orb",
         headers={
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0ODZkMThlYjE0ZGY0ODZjYjcxNzNkNTk1OTZhNGQzYSIsImlhdCI6MTc0NTg5OTY2NCwiZXhwIjoyMDYxMjU5NjY0fQ.dMLfC1Qm_F71ns09rDiYDvimLabowiYufKmneptGzMA",
+            "Authorization": "Bearer " + TOKEN,
             "Content-Type": "application/json",
         },
     )
@@ -45,7 +51,7 @@ def set_color():
     resp = requests.post(
         "https://homeassistant.home.breq.dev/api/services/light/turn_on",
         headers={
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0ODZkMThlYjE0ZGY0ODZjYjcxNzNkNTk1OTZhNGQzYSIsImlhdCI6MTc0NTg5OTY2NCwiZXhwIjoyMDYxMjU5NjY0fQ.dMLfC1Qm_F71ns09rDiYDvimLabowiYufKmneptGzMA",
+            "Authorization": "Bearer " + TOKEN,
             "Content-Type": "application/json",
         },
         json={
@@ -55,6 +61,3 @@ def set_color():
     )
 
     return "", resp.status_code
-
-
-app.run()
